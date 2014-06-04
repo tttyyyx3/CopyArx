@@ -1,0 +1,43 @@
+///////////////
+	//----------------------------------------------------------------------------------------------
+// - CGDCH04.InsertBlock command (do not rename)
+static void CGDCH04InsertBlock(void)
+{
+
+//选取块引用插入点
+AcGePoint3d basePoint;
+if (acedGetPoint(NULL, _T("\n输入插入点： "), asDblArray(basePoint)) != RTNORM)
+return;
+
+//创建一个有属性的块定义
+AcDbObjectId blockId;
+CreateBlockDef (blockId);
+//
+//新建块引用对象
+AcDbBlockReference *pBlkRef = new AcDbBlockReference;
+//
+//指定块引用所引用的块定义的ID
+pBlkRef->setBlockTableRecord(blockId);
+
+AcGeVector3d normal(0.0, 0.0, 1.0);
+//
+//设置块引用的插入点、旋转角度和向量
+pBlkRef->setPosition(basePoint);
+pBlkRef->setRotation(0.0);
+pBlkRef->setNormal(normal);
+
+//打开当前数据库的模型空间
+AcDbBlockTable *pBlockTable;
+acdbHostApplicationServices()->workingDatabase()
+->getSymbolTable(pBlockTable, AcDb::kForRead);
+AcDbBlockTableRecord *pBlockTableRecord;
+pBlockTable->getAt(ACDB_MODEL_SPACE, pBlockTableRecord, AcDb::kForWrite);
+pBlockTable->close();
+//将创建的块引用附加到模型空间块表记录
+AcDbObjectId newEntId;
+pBlockTableRecord->appendAcDbEntity(newEntId, pBlkRef);
+pBlockTableRecord->close();
+
+pBlkRef->close();
+
+}
