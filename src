@@ -41,3 +41,83 @@ pBlockTableRecord->close();
 pBlkRef->close();
 
 }
+
+
+
+
+	// 功能： 求直线的交点和夹角
+//
+// 作者：Zhao C.X.
+//
+// 日期：200709
+//
+// 历史：
+// 调整部分代码 BY Qin H.X.
+//
+//----------------------------------------------------------------------------------------------
+// - CGDCH06.GetIntersect command (do not rename)
+static void CGDCH06GetIntersect(void)
+{
+
+ads_name ename1,ename2;
+    ads_point pickpt;
+    if (acedEntSel(_T("\n选择直线1: "), ename1, pickpt) != RTNORM)
+    {
+        acutPrintf(_T("\n选择直线1失败"));
+        return ;
+    }
+    if (acedEntSel(_T("\n选择直线2: "), ename2, pickpt) != RTNORM)
+    {
+        acutPrintf(_T("\n选择直线2失败"));
+        return ;
+    }	
+
+AcDbObjectId IdLine1,IdLine2;
+
+acdbGetObjectId(IdLine1, ename1);	
+acdbGetObjectId(IdLine2, ename2);
+//直线对象
+AcDbLine *pLine1 = NULL;	
+AcDbLine *pLine2 = NULL;	
+//以读方式打开实体
+if(Acad::eOk == acdbOpenObject(pLine1, IdLine1, AcDb::kForRead))
+{
+if(Acad::eOk == acdbOpenObject(pLine2, IdLine2, AcDb::kForRead))
+{
+//创建几何直线
+AcGeLineSeg3d geLineSeg1, geLineSeg2;
+geLineSeg1.set(pLine1->startPoint(), pLine1->endPoint());	
+geLineSeg2.set(pLine2->startPoint(), pLine2->endPoint());
+
+//求直线的交点
+AcGePoint3d ptIntersect;	
+//如果两条直线有交点
+if (geLineSeg1.intersectWith(geLineSeg2, ptIntersect))	
+{
+acutPrintf(_T("\n两直线的交点：(%0.2f, %0.2f, %0.2f)"), ptIntersect.x, ptIntersect.y,ptIntersect.z);
+}
+else
+{
+acutPrintf(_T("\n直线没有交点。"));
+}
+
+///求直线的夹角
+AcGeVector3d vect1, vect2;	
+vect1 = geLineSeg1.direction();
+vect2 = geLineSeg2.direction();
+double dAngle;
+dAngle = vect1.angleTo(vect2);
+dAngle *= 180.0 / PI;
+pLine2->close();
+acutPrintf(_T("\n直线的夹角为：%0.0f度"), dAngle);
+
+}
+//关闭实体
+pLine1->close();	
+
+}
+
+}
+
+
+
