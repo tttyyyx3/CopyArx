@@ -234,3 +234,18 @@ return bRef.blockTransform();
 }
 
 
+
+  int iNum = 5;  
+        acedInitGet( RSG_NOZERO | RSG_NONEG, NULL );  
+        int err = acedGetInt(_T("/n(1-100)<5>:"), &iNum);  
+        if (err == RTCAN || iNum < 1 || iNum > 100)  
+        {  
+            return;  
+        }  
+        AcGePoint3d centerPoint;  
+        if (RTNORM == acedGetPoint(NULL, _T("/n"), asDblArray(centerPoint)))  
+        {  
+            CMultiCircJig * pJig = new CMultiCircJig(centerPoint, iNum);  
+            pJig ->doIt();  
+            delete pJig;  
+        }  
