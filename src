@@ -296,3 +296,39 @@ else
 {
 g_pDlgModeless->ShowWindow(SW_SHOW);
 }
+
+
+sample for crossing polygon.
+//...
+ads_name ent;
+struct resbuf lookAt;
+lookAt.restype = 67;
+lookAt.resval.rint = model_or_layout() ? 0 : 1; // 0 - modelspase, 1 - current paperspace
+lookAt.rbnext = NULL;
+if(acedSSGet(_T("_cp"), pointlist, NULL, &lookAt, ent) != RTNORM)
+{
+acutPrintf(_T("\n terminated by user"));
+return;
+}
+
+Acad::ErrorStatus es;
+
+//get model space block
+AcDbBlockTableRecordPointer pBlockTableRecord(ACDB_MODEL_SPACE, m_pDatabase, AcDb::kForRead);
+if((es = pBlockTableRecord.openStatus()) == Acad::eOk)
+{
+	//loop on each entities in model space
+	AcDbBlockTableRecordIterator * pIterator = NULL;
+	if((es = pBlockTableRecord->newIterator(pIterator)) == Acad::eOk)
+	{
+		for(pIterator->start(); !pIterator->done(); pIterator->step())
+		{
+			if((es = pIterator->getEntityId(entityId)) != Acad::eOk)
+				continue;
+
+			//...
+		}
+
+		delete pIterator;
+	}
+}
