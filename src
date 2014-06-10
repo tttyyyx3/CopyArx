@@ -261,3 +261,38 @@ return bRef.blockTransform();
    
     acedTrans(asDblArray(tempPt), &rbFrom, &rbTo,   
         Adesk::kFalse, asDblArray(tempPt));   
+
+
+	acedInitGet(0, _T("Red Green Blue"));
+int nReturn;
+//取得用户输入的关键字
+nReturn = acedGetKword(_T("\n请选择实体的颜色Red/Green/Blue<Red>: "), szKword);
+if (nReturn == RTNORM)	//如果得到合理的关键字
+{
+if (_tcscmp(szKword, _T("Red")) == 0)
+acColor.setColorIndex(1);	//红色
+else if (_tcscmp(szKword, _T("Blue")) == 0)
+acColor.setColorIndex(5);	//蓝色
+else
+acColor.setColorIndex(3);	//绿色
+}
+else if (nReturn == RTNONE)	//如果用户输入为空值
+{
+acColor.setColorIndex(1);	//默认红色
+}
+
+
+
+	// 创建无模式对话框
+CAcModuleResourceOverride resOverride;
+//CModelessDialogSteel *
+if(!g_pDlgModeless)
+{
+g_pDlgModeless = new CModelessDialogSteel();
+g_pDlgModeless->Create(CModelessDialogSteel::IDD);
+g_pDlgModeless->ShowWindow(SW_SHOW);
+}
+else
+{
+g_pDlgModeless->ShowWindow(SW_SHOW);
+}
