@@ -332,3 +332,34 @@ if((es = pBlockTableRecord.openStatus()) == Acad::eOk)
 		delete pIterator;
 	}
 }
+
+
+  // 1: Get the Mouse coords in DCS
+        //
+        CPoint cPnt (pMsg->lParam) ;
+        acedCoordFromPixelToWorld(cPnt, cpt) ;
+        ads_point_set ( cpt, ptDCS );
+
+        // 2: Transform the DCS point to UCS isomatric view
+        //
+        ads_point result;
+        struct resbuf fromrb, torb;
+
+        fromrb.restype = RTSHORT;
+        fromrb.resval.rint = 2; // DCS
+
+        torb.restype = RTSHORT;
+        torb.resval.rint = 1; // UCS
+
+        // disp == 0 indicates that pt is a point:
+        acedTrans(ptDCS, &fromrb, &torb, FALSE, result);
+
+        // 3: Project the UCS point to the XY plan of UCS
+        //
+        struct resbuf rbview;
+        ads_getvar( _T("viewdir"), &rbview );
+        ads_point_set( rbview.resval.rpoint, norm );
+        
+        
+        acdbUcs2Wcs(asDblArray(pt),asDblArray(pt),false);// convert point to wcs
+acdbUcs2Wcs(asDblArray(pt2),asDblArray(pt2),false);// convert point to wcs
