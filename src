@@ -363,3 +363,68 @@ if((es = pBlockTableRecord.openStatus()) == Acad::eOk)
         
         acdbUcs2Wcs(asDblArray(pt),asDblArray(pt),false);// convert point to wcs
 acdbUcs2Wcs(asDblArray(pt2),asDblArray(pt2),false);// convert point to wcs
+
+
+the fuction below can refresh CAD's whole drawing area .
+
+void UpdateScreen()
+{
+    actrTransactionManager->flushGraphics();
+    acedUpdateDisplay();
+}
+
+
+
+
+// This is command 'ZOOMEXT, by Fenton Webb [Apr/17/2002], DevTech, Autodesk
+void asdkzoomExt()
+{
+// get the extents of the drawing
+AcDbViewTableRecord view;
+AcGePoint3d max =
+acdbHostApplicationServices()->workingDatabase()->extmax(),
+min = acdbHostApplicationServices()->workingDatabase()->extmin();
+
+AcGePoint2d max_2d (max, max);
+AcGePoint2d min_2d (min, min);
+// now set the view centre point
+view.setCenterPoint (min_2d + (max_2d - min_2d) / 2.0);
+// now height and width of view
+view.setHeight(max_2d - min_2d);
+view.setWidth (max_2d - min_2d);
+// set the view
+acedSetCurrentView (&view, NULL);
+// updates the extents
+acdbHostApplicationServices()->workingDatabase()->updateExt(TRUE);
+}
+
+////////////////////////////////////////////////////////////////////////////
+//
+// This is command 'ZOOMWIN, by Fenton Webb [Apr/17/2002], DevTech, Autodesk
+void asdkzoomWin()
+{
+AcGePoint3d max, min;
+// get the window coords
+int res = acedGetPoint (NULL, "\nPick zoom window pnt : ",
+asDblArray(min));
+// if ok
+if (res == RTNORM)
+{
+res = acedGetCorner (asDblArray(min), "\nPick other corner : ",
+asDblArray(max));
+// get the extents of the drawing
+AcDbViewTableRecord view;
+
+AcGePoint2d max_2d (max, max);
+AcGePoint2d min_2d (min, min);
+// now set the view centre point
+view.setCenterPoint (min_2d + (max_2d - min_2d) / 2.0);
+// now height and width of view
+view.setHeight(max_2d - min_2d);
+view.setWidth (max_2d - min_2d);
+// set the view
+acedSetCurrentView (&view, NULL);
+// updates the extents
+acdbHostApplicationServices()->workingDatabase()->updateExt(TRUE);
+}
+}
