@@ -428,3 +428,18 @@ acedSetCurrentView (&view, NULL);
 acdbHostApplicationServices()->workingDatabase()->updateExt(TRUE);
 }
 }
+
+
+
+AcTrayItem * pTrayItem = new AcTrayItem;
+pTrayItem->SetIcon(MY_ICON);
+
+AcApStatusBar * pStatusBar = acedGetApplicationStatusBar();
+pStatusBar->Add(pTrayItem);
+
+AcTrayItemBubbleWindowControl * pBubble = new AcTrayItemBubbleWindowControl(_T("My first bubble"), _T("This is my firts bubble."), _T("www.mywebsite.com"));
+pTrayItem->ShowBubbleWindow(pBubble);
+
+
+
+
