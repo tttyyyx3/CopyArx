@@ -5,3 +5,6 @@ http://www.kookle.co.nr/
 
 
 https://203.208.46.200/
+
+
+nslookup -q=TXT _netblocks.google.com 8.8.8.8
