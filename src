@@ -440,6 +440,6 @@ pStatusBar->Add(pTrayItem);
 AcTrayItemBubbleWindowControl * pBubble = new AcTrayItemBubbleWindowControl(_T("My first bubble"), _T("This is my firts bubble."), _T("www.mywebsite.com"));
 pTrayItem->ShowBubbleWindow(pBubble);
 
-
+acdbWcs2Ecs(asDblArray(clickpt),outPt,asDblArray(pLine->normal()),Adesk::kFalse);	
 
 
