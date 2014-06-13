@@ -8,3 +8,5 @@ https://203.208.46.200/
 
 
 nslookup -q=TXT _netblocks.google.com 8.8.8.8
+http://googless.jd-app.com/index.php
+http://blog.yadgen.com/?page_id=585
