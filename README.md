@@ -21,4 +21,7 @@ http://1kapp.co/
  
  
  '74.125.22.113', '74.125.22.189', '173.194.37.207', '74.125.20.129', '173.194.37.99', '173.194.76.128'
+ 
+ 
+ https://github.com/justjavac/Google-IPs/blob/master/README.md
 
