@@ -443,3 +443,28 @@ pTrayItem->ShowBubbleWindow(pBubble);
 acdbWcs2Ecs(asDblArray(clickpt),outPt,asDblArray(pLine->normal()),Adesk::kFalse);	
 
 
+
+
+if (pObj->isA() == AcDbBlockReference::desc()) {
+		// code to parse AcDbDynBlockReferences...
+
+		AcDbDynBlockReference*	pDynBlockReference = new AcDbDynBlockReference(pObj->objectId());
+		
+		if (pDynBlockReference->isDynamicBlock()) {
+			AcDbObjectId			btrId = pDynBlockReference->dynamicBlockTableRecord();
+			AcDbBlockTableRecord*		pBtr;
+			AcString			dynBlockName;
+
+			acdbOpenObject(pBtr, btrId, AcDb::kForRead);
+			pBtr->getName(dynBlockName);
+			pBtr->close();
+
+			AcDbDynBlockReferencePropertyArray	properties;
+			AcDbDynBlockReferenceProperty		property;
+			AcString				attributeName;
+			ads_real				dim;
+
+			pDynBlockReference->getBlockProperties(properties);	// blows up here...
+			for (int i=0; i < properties.length(); i++) {
+				property = properties[i];
+				attributeName =  property.propertyName();
