@@ -31,3 +31,8 @@ http://1kapp.co/
 
 
 分享新镜像域名 baidustatic.co (百度) alicdn.co (淘宝) gtimg.co (腾讯) aspnetcdn.co (微软) 1kapp.co (新浪)
+
+
+nslookup -q=TXT _netblocks.google.com 8.8.8.8
+nslookup -q=TXT _netblocks2.google.com 8.8.8.8
+nslookup -q=TXT _netblocks3.google.com 8.8.8.8
