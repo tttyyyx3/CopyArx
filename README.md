@@ -25,3 +25,6 @@ http://1kapp.co/
  
  https://github.com/justjavac/Google-IPs/blob/master/README.md
 
+
+24.156.131.0/24
+66.185.84.0/24
