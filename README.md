@@ -28,3 +28,6 @@ http://1kapp.co/
 
 24.156.131.0/24
 66.185.84.0/24
+
+
+分享新镜像域名 baidustatic.co (百度) alicdn.co (淘宝) gtimg.co (腾讯) aspnetcdn.co (微软) 1kapp.co (新浪)
