@@ -468,3 +468,6 @@ if (pObj->isA() == AcDbBlockReference::desc()) {
 			for (int i=0; i < properties.length(); i++) {
 				property = properties[i];
 				attributeName =  property.propertyName();
+				
+/////////20140615				
+				
